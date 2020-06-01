@@ -86,7 +86,7 @@
         {{-- TITLE --}}
         <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text"  class="form-control" name="title" id="title" placeholder="Enter Title">
+                <input type="text"  class="form-control" name="title" id="title" placeholder="Enter Title" value="{{old('title')}}">
             @error('title')
                 <span class='alert alert-danger'>
                     {{$message}}
@@ -96,7 +96,7 @@
         {{-- BODY --}}
         <div class="form-group">
                 <label for="body">Body</label>
-                <textarea type="text"  class="form-control" name="body" id="body" rows="10" placeholder="Enter Body"></textarea>
+                <textarea type="text"  class="form-control" name="body" id="body" rows="10" placeholder="Enter Body" >{{old('body')}}</textarea>
             @error('body')
                 <span class='alert alert-danger'>
                     {{$message}}
@@ -106,9 +106,11 @@
         {{-- CATEGORY --}}
         <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" id="category" class="custom-select">
+                <select name="category" id="category" class="custom-select" value="{{old('title')}}">
             @foreach ($categories as $category)
-                <option value="{{$category['id']}}">{{$category['name']}}</option>
+                <option value="{{$category['id']}}"
+                {{(!empty(old('category'))) ? 'selected' : ''}}>
+                {{$category['name']}}</option>
             @endforeach
             @error('category')
                 <span class='alert alert-danger'>
@@ -121,8 +123,9 @@
                 <label for="tags">Tags</label>
                 @foreach ($tags as $tag)
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input"  type="checkbox" name="tags[]" id="tag{{$tag['id']}}" value="{{$tag['id']}}">
                     <label class="form-check-label" for="tag{{$tag['id']}}">{{$tag['name']}}</label>
+                    <input class="form-check-input"  type="checkbox" name="tags[]" id="tag{{$tag['id']}}" value="{{$tag['id']}}"
+                     {{ (is_array(old('tags')) && in_array($tag['id'], old('tags'))) ? 'checked' : ''}}>
                 </div>
                 @endforeach
                 @error('tags')
@@ -136,8 +139,9 @@
             <label for="photos">Tags</label>
             @foreach ($photos as $photo)
             <div class="form-check form-check-inline">
-                <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo['id']}}" value="{{$photo['id']}}">
                 <label class="form-check-label" for="tag{{$photo['id']}}">{{$photo['path']}}</label>
+                <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo['id']}}" value="{{$photo['id']}}">
+                 {{ (is_array(old('photos')) && in_array($photo['id'], old('photos'))) ? 'checked' : ''}}>
             </div>
             @endforeach
             @error('photos')
