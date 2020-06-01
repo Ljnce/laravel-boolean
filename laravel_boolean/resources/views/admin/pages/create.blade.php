@@ -106,7 +106,7 @@
         {{-- CATEGORY --}}
         <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" id="category" class="custom-select" value="{{old('title')}}">
+                <select name="category" id="category" class="custom-select">
             @foreach ($categories as $category)
                 <option value="{{$category['id']}}"
                 {{(!empty(old('category'))) ? 'selected' : ''}}>

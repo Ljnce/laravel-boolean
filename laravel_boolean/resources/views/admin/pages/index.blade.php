@@ -1,5 +1,5 @@
 @php
-    $posts = [
+    $pages = [
         [
             'id' => 1,
             'title' => 'Iron man',
@@ -79,13 +79,13 @@
                 <th colspan="3">Action</th>
             </thead>
             <tbody>
-                @foreach ($posts as $key => $post)
+                @foreach ($pages as $key => $page)
                     <tr>
-                        <td>{{$post['id']}}</td>
-                        <td>{{$post['title']}}</td>
-                        <td>{{$post['category']}}</td>
-                        @foreach ($post['tags'] as $key => $post)
-                            <td>{{$post}}</td>
+                        <td>{{$page['id']}}</td>
+                        <td>{{$page['title']}}</td>
+                        <td>{{$page['category']}}</td>
+                        @foreach ($page['tags'] as $key => $tag)
+                            <td>{{$tag}}</td>
                         @endforeach
                         <td><button type="button" class="btn btn-primary"> Show </button></td>
                         {{-- <a href="{{route('admin.pages.show', $post->id)}}"> </a>--}}
