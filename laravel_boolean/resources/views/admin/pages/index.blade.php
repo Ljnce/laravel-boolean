@@ -1,4 +1,4 @@
-@php
+{{-- @php
     $pages = [
         [
             'id' => 1,
@@ -51,7 +51,7 @@
             ],
         ],
     ];
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 @section('content')
@@ -75,33 +75,30 @@
                 <th>ID</th>
                 <th>Title</th>
                 <th>Category</th>
-                <th colspan="3">Tags</th>
+                <th>Tags</th>
                 <th colspan="3">Action</th>
             </thead>
             <tbody>
                 @foreach ($pages as $key => $page)
                     <tr>
-                        <td>{{$page['id']}}</td>
-                        <td>{{$page['title']}}</td>
-                        <td>{{$page['category']}}</td>
-                        @foreach ($page['tags'] as $key => $tag)
-                            <td>{{$tag}}</td>
+                        <td>{{$page->id}}</td>
+                        <td>{{$page->title}}</td>
+                        <td>{{$page->category->name}}</td>
+                        @foreach ($page->tags as $key => $tag)
+                            <td>{{$tag->name}}</td>
                         @endforeach
-                        <td><button type="button" class="btn btn-primary"> Show </button></td>
-                        {{-- <a href="{{route('admin.pages.show', $post->id)}}"> </a>--}}
-
-                        <td><button type="button" class="btn btn-secondary"> Update </button></td>
-                        {{-- @if(Auth::id() == $page->user_id)
-                        <a href="{{route('admin.pages.edit', $post->id)}}"> </a>
-                        @endif--}}
-                        <td>
-                        {{--@if(Auth::id() == $page->user_id)
-                        <form class="" action="{{route('admin.pages.destroy', $post->id)}}" method="post">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                        @endif--}}
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        <td><a class="btn btn-primary" href="{{route('admin.pages.show', $page->id)}}">Visualizza</a></td>
+                    @if(Auth::id() == $page->user_id)
+                    <td><a class="btn btn-secondary" href="{{route('admin.pages.edit', $page->id)}}">Modifica</a></td>
+                     @endif
+                    <td>
+                        @if(Auth::id() == $page->user_id)
+                      <form action="{{route('admin.pages.destroy', $page->id)}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <input class="btn btn-danger" type="submit" value="Elimina">
+                      </form>
+                  @endif
                         </td>
                     </tr>
                 @endforeach

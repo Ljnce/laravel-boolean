@@ -32,7 +32,11 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        $tags = Tag::all();
+        $photos = Photo::all();
+
+        return view('admin.pages.create', compact('categories', 'tags', 'photos'));
     }
 
     /**
@@ -54,7 +58,8 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        return view('admin.pages.show', compact('page'));
     }
 
     /**
