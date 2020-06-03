@@ -43,3 +43,8 @@ Route::prefix('admin')
     Route::resource('pages', 'PageController');
     Route::resource('photos', 'PhotoController');
 });
+
+//Test PDF page donwloader
+Route::get('index', 'NotesController@index');
+
+Route::get('pdf', 'NotesController@pdf')->name('download');

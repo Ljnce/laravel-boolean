@@ -1,5 +1,10 @@
 @extends('layouts.app')
 @section('content')
+    <div class="row">
+        <div class="offset-8 col-3">
+            <h3> <a href="{{route('download')}}"> Download this file </a> </h3>
+        </div>
+    </div>
     <div class="offset-1 col-10">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -14,7 +19,6 @@
         </div>
         <table class="table">
             <thead>
-                <th>ID</th>
                 <th>Title</th>
                 <th>Category</th>
                 <th>Tags</th>
@@ -23,7 +27,6 @@
             <tbody>
                 @foreach ($pages as $key => $page)
                     <tr>
-                        <td>{{$page->id}}</td>
                         <td>{{$page->title}}</td>
                         <td>{{$page->category->name}}</td>
                         @foreach ($page->tags as $key => $tag)
