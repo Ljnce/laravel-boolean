@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
 
 use App\Page;
 use App\Category;
@@ -153,6 +155,11 @@ class PageController extends Controller
             abort('404');
         }
 
+        $page->tags()->detach();
+        $page->photos()->detach();
 
+        $page->delete();
+
+        return redirect()->back()->with('status', 'Post cancellato');
     }
 }

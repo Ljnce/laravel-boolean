@@ -167,6 +167,8 @@
                 </span>
             @enderror
         </div> --}}
-        <button type="submit" class="btn btn-dark">Invia</button>
+        <div class="form-group">
+            <button type="submit" class="btn btn-dark">Invia</button>
+        </div>
     </div>
 @endsection
