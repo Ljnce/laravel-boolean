@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('content')
     <div class="container">
@@ -14,7 +15,7 @@
       </div>
         <div class="col-4">
           @foreach ($photos as $photo)
-          <img src="{{asset('storage/'  . $photo->path)}}" alt="{{$photo->name}}">
+            <img src="{{asset('storage/'. $photo->path)}}" alt="{{$photo->name}}">
           @endforeach
         </div>
       </div>

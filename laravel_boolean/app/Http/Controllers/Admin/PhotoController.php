@@ -82,8 +82,8 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        $photo = Photo::findOrFail($id);
-        return view('admin.photos.show', compact('photo'));
+        $photos = Photo::findOrFail($id);
+        return view('admin.photos.show', compact('photos'));
     }
 
     /**
@@ -94,16 +94,15 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
-        $page = Page::findOrFail($id);
+        $photo = Photo::findOrFail($id);
         $userId = Auth::id();
-        $author = $page->user_id;
+        $author = $photo->user_id;
 
         if ($userId != $author) {
             abort('404');
         }
-        $photos = Photo::all();
 
-        return view('admin.pages.edit', compact('photos'));
+        return view('admin.pages.edit', compact('photo'));
     }
 
     /**
@@ -115,8 +114,9 @@ class PhotoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $photo = Photo::findOrFail($id);
         $userId = Auth::id();
-        $author = $page->user_id;
+        $author = $photo->user_id;
 
         if ($userId != $author) {
             abort('404');
@@ -142,7 +142,7 @@ class PhotoController extends Controller
                 $photoDatabase->delete();
             }
 
-            $path = Storage::disk('public')->put('images', $data['photo-file']);
+            $path = Storage::disk('public')->put('images', $data['update-path']);
             $photo = new Photo;
             $photo->user_id = Auth::id();
             $photo->name = $data['title'];
@@ -167,6 +167,19 @@ class PhotoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $photo = Photo::findOrFail($id);
+        $userId = Auth::id();
+        $author = $photo->user_id;
+
+        if ($userId != $author) {
+            abort('404');
+        }
+        $deleted = $photo->delete();
+
+        if(!$deleted){
+            return redirect()->back();
+        }
+
+        return redirect()->route('admin.photos.index')->with('status', 'Foto cancellata corretttamente');
     }
 }
