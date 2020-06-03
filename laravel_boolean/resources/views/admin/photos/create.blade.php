@@ -21,14 +21,18 @@
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="name"  placeholder="Inserisci un titolo" name="name">
                 @error('name')
-                  <small class="form-text">Errore</small>
+                    <span class='alert alert-danger'>
+                        {{$message}}
+                    </span>
                 @enderror
               </div>
              <div class="form-group">
                 <label for="description">Description</label>
                 <input type="text" class="form-control" id="description"  placeholder="Inserisci una descrizione"  name="description">
                 @error('description')
-                  <small class="form-text">Errore</small>
+                    <span class='alert alert-danger'>
+                        {{$message}}
+                    </span>
                 @enderror
               </div>
              <div class="form-group">
@@ -38,7 +42,9 @@
                   <label class="custom-file-label" for="inputGroupFile01">Browse</label>
                 </div>
                 @error('path')
-                  <small class="form-text">Errore</small>
+                    <span class='alert alert-danger'>
+                        {{$message}}
+                    </span>
                 @enderror
               </div>
 

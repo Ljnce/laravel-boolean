@@ -82,8 +82,8 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        $page = Page::findOrFail($id);
-        return view('admin.photos.show', compact('page'));
+        $photo = Photo::findOrFail($id);
+        return view('admin.photos.show', compact('photo'));
     }
 
     /**
@@ -94,8 +94,16 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
+        $page = Page::findOrFail($id);
+        $userId = Auth::id();
+        $author = $page->user_id;
 
+        if ($userId != $author) {
+            abort('404');
+        }
+        $photos = Photo::all();
 
+        return view('admin.pages.edit', compact('photos'));
     }
 
     /**
@@ -107,7 +115,48 @@ class PhotoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $userId = Auth::id();
+        $author = $page->user_id;
+
+        if ($userId != $author) {
+            abort('404');
+        }
+
+        $validator = Validator::make($data, [
+            'name' => 'required|max:200',
+            'description' => 'required',
+            'path' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.photos.create')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        if (isset($data['update-path'])) {
+            foreach($page->photos as $photo) {
+                $deleted = Storage::disk('public')->delete($photo->path);
+                $page->photos()->detach($photo->id);
+                $photoDatabase = Photo::find($photo->id);
+                $photoDatabase->delete();
+            }
+
+            $path = Storage::disk('public')->put('images', $data['photo-file']);
+            $photo = new Photo;
+            $photo->user_id = Auth::id();
+            $photo->name = $data['title'];
+            $photo->path = $path;
+            $photo->description = $data['description'];
+            $saved = $photo->save();
+        }
+
+
+        if(!$saved) {
+            abort('404');
+        }
+
+        return redirect()->route('admin.photos.index')->with('status', 'Foto aggiornata correttamente');
     }
 
     /**

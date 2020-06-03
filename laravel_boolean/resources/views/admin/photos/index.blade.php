@@ -36,7 +36,7 @@
                   <td>{{$photo->name}}</td>
 
                   <td><a class="btn btn-primary" href="{{route('admin.photos.show', $photo->id)}}">Visualizza</a> </td>
-                  <td><a class="btn btn-info" href="">Modifica</a></td>
+                  <td><a class="btn btn-info" href="{{route('admin.photos.edit', $photo->id)}}">Modifica</a></td>
                   <td>
                     <form action="">
                       <input class="btn btn-danger" type="submit" value="Elimina">
