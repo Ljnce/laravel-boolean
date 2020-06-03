@@ -19,8 +19,8 @@
             @method('POST')
              <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" id="title"  placeholder="Inserisci un titolo" name="title">
-                @error('title')
+                <input type="text" class="form-control" id="name"  placeholder="Inserisci un titolo" name="name">
+                @error('name')
                   <small class="form-text">Errore</small>
                 @enderror
               </div>

@@ -33,9 +33,9 @@
               @foreach ($photos as $photo)
                 <tr>
                   <td>{{$photo->id}}</td>
-                  <td>{{$photo->title}}</td>
+                  <td>{{$photo->name}}</td>
 
-                  <td><a class="btn btn-primary" href="">Visualizza</a> </td>
+                  <td><a class="btn btn-primary" href="{{route('admin.photos.show', $photo->id)}}">Visualizza</a> </td>
                   <td><a class="btn btn-info" href="">Modifica</a></td>
                   <td>
                     <form action="">

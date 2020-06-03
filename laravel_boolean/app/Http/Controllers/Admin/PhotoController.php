@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 use App\Photo;
+use App\Page;
 
 class PhotoController extends Controller
 {
@@ -28,7 +32,7 @@ class PhotoController extends Controller
      */
     public function create()
     {
-
+        return view('admin.photos.create');
     }
 
     /**
@@ -39,7 +43,35 @@ class PhotoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        $validator = Validator::make($data, [
+            'name' => 'required|max:200',
+            'description' => 'required',
+            'path' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.photos.create')
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        if (isset($data['path'])) {
+            $path = Storage::disk('public')->put('images', $data['path']);
+            $photo = new Photo;
+            $photo->user_id = Auth::id();
+            $photo->name = $data['name'];
+            $photo->path = $path;
+            $photo->description = $data['description'];
+            $saved = $photo->save();
+        }
+
+        if(!$saved) {
+            abort('404');
+        }
+
+        return redirect()->route('admin.photos.index');
     }
 
     /**
@@ -50,7 +82,8 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        return view('admin.photos.show', compact('page'));
     }
 
     /**
@@ -61,7 +94,8 @@ class PhotoController extends Controller
      */
     public function edit($id)
     {
-        //
+
+
     }
 
     /**
