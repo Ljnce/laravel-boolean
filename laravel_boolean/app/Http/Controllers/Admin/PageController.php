@@ -118,8 +118,8 @@ class PageController extends Controller
     {
         $page = Page::findOrFail($id);
         $userId = Auth::id();
-        $author = $page->user_id;
-        if ($userId != $author) {
+        $authors = $page->user_id;
+        if ($userId != $authors) {
             abort('404');
         }
         $categories = Category::all();

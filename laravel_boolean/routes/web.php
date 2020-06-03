@@ -33,6 +33,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 //     return view('admin.pages.edit');
 // })->name('admin.pages.edit');
 
+Route::resource('pages', 'PageController');
+
 Route::prefix('admin')
 ->name('admin.')
 ->namespace('Admin')

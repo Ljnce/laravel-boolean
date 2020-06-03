@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Page;
+
 class PageController extends Controller
 {
     /**
@@ -13,7 +15,9 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        $pages = Page::where('visible', 1)->orderBy('updated_at', 'DESC')->paginate(25);
+
+        return view('guests.index', compact('pages'));
     }
 
     /**
@@ -45,7 +49,8 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        return view('guests.show', compact('page'));
     }
 
     /**
