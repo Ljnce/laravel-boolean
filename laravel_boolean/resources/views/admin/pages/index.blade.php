@@ -89,13 +89,18 @@
                         @endforeach
                         <td><button type="button" class="btn btn-primary"> Show </button></td>
                         {{-- <a href="{{route('admin.pages.show', $post->id)}}"> </a>--}}
+
                         <td><button type="button" class="btn btn-secondary"> Update </button></td>
-                        {{-- <a href="{{route('admin.pages.edit', $post->id)}}"> </a> --}}
+                        {{-- @if(Auth::id() == $page->user_id)
+                        <a href="{{route('admin.pages.edit', $post->id)}}"> </a>
+                        @endif--}}
                         <td>
-                        {{-- <form class="" action="{{route('admin.pages.destroy', $post->id)}}" method="post">
+                        {{--@if(Auth::id() == $page->user_id)
+                        <form class="" action="{{route('admin.pages.destroy', $post->id)}}" method="post">
                             @csrf
                             @method('DELETE')
-                        </form>--}}
+                        </form>
+                        @endif--}}
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
