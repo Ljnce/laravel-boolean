@@ -104,5 +104,6 @@
                 @endforeach
             </tbody>
         </table>
+         {{$pages->links()}}
     </div>
 @endsection

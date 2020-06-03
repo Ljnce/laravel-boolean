@@ -85,8 +85,14 @@
         <form>
         {{-- TITLE --}}
         <div class="form-group">
-                <label for="title">Title</label>
-                <input type="text"  class="form-control" name="title" id="title" placeholder="Enter Title" value="{{old('title')}}">
+            <div class="custom-control custom-switch">
+                <input type="checkbox" class="custom-control-input" id="customSwitches" name="visible">
+                <label class="custom-control-label" for="customSwitches">Visible</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text"  class="form-control" name="title" id="title" placeholder="Enter Title" value="{{old('title')}}">
             @error('title')
                 <span class='alert alert-danger'>
                     {{$message}}
@@ -136,11 +142,11 @@
             </div>
         {{-- PHOTOS --}}
         <div class="form-check">
-            <label for="photos">Photo</label>
+            <label for="photos">Photos</label>
             @foreach ($photos as $photo)
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="tag{{$photo->id}}">{{$photo->path}}</label>
-                <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo->id}}" value="{{$photo->id}}">
+                <label class="form-check-label" for="photo{{$photo->id}}">{{$photo->path}}</label>
+                <input class="form-check-input"  type="checkbox" name="photos[]" id="photo{{$photo->id}}" value="{{$photo->id}}">
                  {{ (is_array(old('photos')) && in_array($photo->id, old('photos'))) ? 'checked' : ''}}>
             </div>
             @endforeach

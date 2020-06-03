@@ -1,4 +1,4 @@
-@php
+{{-- @php
 //PROVA CON UNA SOLA PAGE (Create è riferito ad una page, non a più page)
 $page = [
         'id' => 1,
@@ -85,7 +85,7 @@ $page = [
             'path' => 'Quinto'
         ]
     ];
-@endphp
+@endphp --}}
 
 @extends('layouts.app')
 @section('content')
@@ -97,14 +97,14 @@ $page = [
                 <li class="breadcrumb-item active" aria-current="page">Data</li>
             </ol>
         </nav>
-        {{-- <form class="" action="{{route('admin.pages.update', $page->id)}}" enctype='multipart/form-data' method="post">
+        <form class="" action="{{route('admin.pages.update', $page->id)}}" method="post">
             @csrf
             @method('PATCH')
-        <form> --}}
+        <form>
         {{-- TITLE --}}
         <div class="form-group">
                 <label for="title">Title</label>
-                <input type="text"  class="form-control" name="title" id="title" value="{{!empty(old('title')) ? old('title') : $page['title']}}">
+                <input type="text"  class="form-control" name="title" id="title" value="{{!empty(old('title')) ? old('title') : $page->title}}">
             @error('title')
                 <span class='alert alert-danger'>
                     {{$message}}
@@ -114,7 +114,7 @@ $page = [
         {{-- BODY --}}
         <div class="form-group">
                 <label for="body">Body</label>
-                <textarea type="text"  class="form-control" name="body" id="body" rows="10" >{{!empty(old('body')) ? old('body') : $page['body']}}</textarea>
+                <textarea type="text"  class="form-control" name="body" id="body" rows="10" >{{!empty(old('body')) ? old('body') : $page->body}}</textarea>
             @error('body')
                 <span class='alert alert-danger'>
                     {{$message}}
@@ -130,9 +130,9 @@ $page = [
                     {{!empty(old('category')) ? old('category') : $categorytest['name']}}>
                     {{$categorytest['name']}}</option> --}}
             @foreach ($categories as $category)
-                <option value="{{$category['id']}}"
-                {{!empty(old('category')) ? old('category') : $category['name']}}>
-                {{$category['name']}}</option>
+                <option value="{{$category->id}}"
+                {{!empty(old('category')) ? old('category') : $category->name}}>
+                {{$category->name}}</option>
             @endforeach
             @error('category')
                 <span class='alert alert-danger'>
@@ -145,8 +145,8 @@ $page = [
                 <label for="tags">Tags</label>
                 @foreach ($tags as $tag)
                 <div class="form-check form-check-inline">
-                    <label class="form-check-label" for="tag{{$tag['id']}}">{{$tag['name']}}</label>
-                    <input class="form-check-input"  type="checkbox" name="tags[]" id="tag{{$tag['id']}}" value="{{$tag['id']}}">
+                    <label class="form-check-label" for="tag{{$tag->id}}">{{$tag->name}}</label>
+                    <input class="form-check-input"  type="checkbox" name="tags[]" id="tag{{$tag->id}}" value="{{$tag->id}}">
                      {{-- {{((is_array(old('tags')) && in_array($tag->id, old('tags')))
                          ||  $page->tags->contains($tag->id)) ? 'checked' : ''}} --}}
                 </div>
@@ -159,13 +159,13 @@ $page = [
             </div>
         {{-- PHOTOS --}}
         <div class="form-check">
-            <label for="photos">Tags</label>
+            <label for="photos">Photo</label>
             @foreach ($photos as $photo)
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="tag{{$photo['id']}}">{{$photo['path']}}</label>
-                <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo['id']}}" value="{{$photo['id']}}">
-                {{-- {{((is_array(old('photos')) && in_array($tag->id, old('photos')))
-                    ||  $page->photos->contains($photo->id)) ? 'checked' : ''}} --}}
+                <label class="form-check-label" for="tag{{$photo->id}}">{{$photo->path}}</label>
+                <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo->id}}" value="{{$photo->id}}">
+                {{((is_array(old('photos')) && in_array($tag->id, old('photos')))
+                    ||  $page->photos->contains($photo->id)) ? 'checked' : ''}}
             </div>
 
             @endforeach

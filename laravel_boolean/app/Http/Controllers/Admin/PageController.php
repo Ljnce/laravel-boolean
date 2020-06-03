@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 use App\Page;
 use App\Category;
@@ -47,7 +49,48 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        if(!isset($data['visible'])) {
+            $data['visible'] = 0;
+        } else {
+            $data['visible'] = 1;
+        }
+
+        $data['user_id'] = Auth::id();
+        $validator = Validator::make($data, [
+            'title' => 'required|max:200',
+            'body' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'required|array',
+            'tags.*' => 'exists:tags,id',
+            'photos' => 'required|array',
+            'photos.*' => 'exists:photos,id'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.pages.create')
+            ->withErrors($validator)
+                ->withInput();
+        }
+
+        $page = new Page;
+        $page->fill($data);
+        $saved = $page->save();
+
+        if(!$saved) {
+            abort('404');
+        }
+
+        if(isset($data['tags'])) {
+            $page->tags()->attach($data['tags']);
+        }
+
+        if(isset($data['photos'])) {
+            $page->photos()->attach($data['photos']);
+        }
+
+        return redirect()->route('admin.pages.show', $page->id);
     }
 
     /**
@@ -70,7 +113,17 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        $userId = Auth::id();
+        $author = $page->user_id;
+        if ($userId != $author) {
+            abort('404');
+        }
+        $categories = Category::all();
+        $tags = Tag::all();
+        $photos = Photo::all();
+
+        return view('admin.pages.edit', compact('page','categories', 'tags', 'photos'));
     }
 
     /**
@@ -93,6 +146,13 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $page = Page::findOrFail($id);
+        $userId = Auth::id();
+        $author = $page->user_id;
+        if ($userId != $author) {
+            abort('404');
+        }
+
+
     }
 }
