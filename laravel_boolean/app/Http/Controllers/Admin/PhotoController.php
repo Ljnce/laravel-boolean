@@ -82,8 +82,8 @@ class PhotoController extends Controller
      */
     public function show($id)
     {
-        $photos = Photo::findOrFail($id);
-        return view('admin.photos.show', compact('photos'));
+        $photo = Photo::findOrFail($id);
+        return view('admin.photos.show', compact('photo'));
     }
 
     /**

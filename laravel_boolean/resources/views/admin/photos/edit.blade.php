@@ -18,7 +18,7 @@
             @csrf
             @method('PATCH')
              <div class="form-group">
-                <label for="title">Title</label>
+                <label for="name">Title</label>
                 <input type="text" class="form-control" id="name"  placeholder="Inserisci un titolo" name="name" value="{{$photo->name}}">
                 @error('name')
                     <span class='alert alert-danger'>
@@ -54,7 +54,7 @@
           </form>
         </div>
         <div class="col-4">
-          <img src="{{asset('storage/'. $photo['path'])}}" alt="">
+          <img src="{{asset('storage/'. $photo->path)}}" alt="">
         </div>
       </div>
     </div>
