@@ -121,10 +121,18 @@ $page = [
                 </span>
             @enderror
         </div>
+        {{-- SUMMARY--}}
+        <div class="form-group">
+                  <label for="summary">Summary</label>
+                  <input type="text" class="form-control" id="summary"  placeholder="Inserisci il sommario" name="summary">
+                  @error('summary')
+                    <small class="form-text">Errore</small>
+                  @enderror
+                </div>
         {{-- CATEGORY --}}
         <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" id="category" class="custom-select">
+                <select name="category_id" id="category" class="custom-select">
                     {{-- PROVA per old {{}}
                      <option value="{{$categorytest['id']}}"
                     {{!empty(old('category')) ? old('category') : $categorytest['name']}}>

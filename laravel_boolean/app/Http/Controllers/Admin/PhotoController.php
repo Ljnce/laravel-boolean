@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Photo;
+
 class PhotoController extends Controller
 {
     /**
@@ -15,7 +17,8 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Photo::all();
+        return view('admin.photos.index', compact('photos'));
     }
 
     /**

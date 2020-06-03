@@ -109,12 +109,20 @@
                 </span>
             @enderror
         </div>
+        {{-- SUMMARY--}}
+        <div class="form-group">
+                  <label for="summary">Summary</label>
+                  <input type="text" class="form-control" id="summary"  placeholder="Inserisci il sommario" name="summary">
+                  @error('summary')
+                    <small class="form-text">Errore</small>
+                  @enderror
+                </div>
         {{-- CATEGORY --}}
         <div class="form-group">
                 <label for="category">Category</label>
-                <select name="category" id="category" class="custom-select">
+                <select name="category_id" id="category" class="custom-select">
             @foreach ($categories as $category)
-                <option value="{{$category['id']}}"
+                <option value="{{$category->id}}"
                 {{(!empty(old('category'))) ? 'selected' : ''}}>
                 {{$category['name']}}</option>
             @endforeach

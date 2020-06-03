@@ -63,6 +63,7 @@ class PageController extends Controller
         $validator = Validator::make($data, [
             'title' => 'required|max:200',
             'body' => 'required',
+            'summary' => 'required',
             'category_id' => 'required|exists:categories,id',
             'tags' => 'required|array',
             'tags.*' => 'exists:tags,id',
@@ -137,7 +138,50 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $page = Page::findOrFail($id);
+        $userId = Auth::id();
+        $author = $page->user_id;
+        if ($userId != $author) {
+            abort('404');
+        }
+
+        if(!isset($data['visible'])) {
+            $data['visible'] = 0;
+        } else {
+            $data['visible'] = 1;
+        }
+
+        $data['user_id'] = Auth::id();
+        $validator = Validator::make($data, [
+            'title' => 'required|max:200',
+            'body' => 'required',
+            'summary' => 'required',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'required|array',
+            'tags.*' => 'exists:tags,id',
+            'photos' => 'required|array',
+            'photos.*' => 'exists:photos,id'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.pages.create')
+            ->withErrors($validator)
+                ->withInput();
+        }
+
+        $page->fill($data);
+        $saved = $page->update();
+
+        if(!$saved) {
+            abort('404');
+        }
+
+        $page->tags()->sync($data['tags']);
+
+        $page->photos()->sync($data['photos']);
+
+        return redirect()->route('admin.pages.show', $page->id);
     }
 
     /**
