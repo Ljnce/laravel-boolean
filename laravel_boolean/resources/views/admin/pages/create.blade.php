@@ -153,7 +153,7 @@
             <label for="photos">Photos</label>
             @foreach ($photos as $photo)
             <div class="form-check form-check-inline">
-                <label class="form-check-label" for="photo{{$photo->id}}">{{$photo->path}}</label>
+                <img width="300" height="200" src="{{asset('storage/'. $photo->path)}}" alt="{{$photo->name}}">
                 <input class="form-check-input"  type="checkbox" name="photos[]" id="photo{{$photo->id}}" value="{{$photo->id}}">
                  {{ (is_array(old('photos')) && in_array($photo->id, old('photos'))) ? 'checked' : ''}}>
             </div>

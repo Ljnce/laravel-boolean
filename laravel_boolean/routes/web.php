@@ -48,3 +48,6 @@ Route::prefix('admin')
 Route::get('index', 'NotesController@index');
 
 Route::get('pdf', 'NotesController@pdf')->name('download');
+
+// Rotta per test API js
+Route::middleware('api.auth')->get('admin/photos', 'Api\PhotoController@getAll');
