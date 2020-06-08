@@ -14,6 +14,7 @@ use App\Page;
 use App\Category;
 use App\Tag;
 use App\Photo;
+use App\User;
 
 class PageController extends Controller
 {
@@ -165,7 +166,7 @@ class PageController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route('admin.pages.create')
+            return redirect()->route('admin.pages.update')
             ->withErrors($validator)
                 ->withInput();
         }

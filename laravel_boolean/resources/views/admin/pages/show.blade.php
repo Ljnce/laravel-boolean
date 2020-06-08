@@ -23,7 +23,7 @@
         </div>
         <div class="col-4">
           @foreach ($page->photos as $photo)
-          <img src="{{asset('storage/'  . $photo->path)}}" alt="{{$photo->name}}">
+              <img width="300" height="200" src="{{asset('storage/'. $photo->path)}}" alt="{{$photo->name}}">
           @endforeach
         </div>
       </div>

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Page;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +44,7 @@ Route::prefix('admin')
 ->group(function(){
     Route::resource('pages', 'PageController');
     Route::resource('photos', 'PhotoController');
+    Route::resource('messages', 'MessageController');
 });
 
 //Test PDF page donwloader

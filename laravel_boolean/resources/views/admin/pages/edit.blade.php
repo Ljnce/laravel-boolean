@@ -170,6 +170,7 @@ $page = [
             <label for="photos">Photo</label>
             @foreach ($photos as $photo)
             <div class="form-check form-check-inline">
+                <img width="300" height="200" src="{{asset('storage/'. $photo->path)}}" alt="{{$photo->name}}">
                 <label class="form-check-label" for="tag{{$photo->id}}">{{$photo->path}}</label>
                 <input class="form-check-input"  type="checkbox" name="photos[]" id="tag{{$photo->id}}" value="{{$photo->id}}">
                 {{((is_array(old('photos')) && in_array($tag->id, old('photos')))

@@ -81,6 +81,7 @@
             <tbody>
                 @foreach ($pages as $key => $page)
                     <tr>
+                        @if(Auth::id() == $page->user_id)
                         <td>{{$page->id}}</td>
                         <td>{{$page->title}}</td>
                         <td>{{$page->category->name}}</td>
@@ -100,6 +101,7 @@
                       </form>
                   @endif
                         </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

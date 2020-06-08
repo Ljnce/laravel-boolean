@@ -15,8 +15,11 @@ class ApiAuth
      */
     public function handle($request, Closure $next)
     {
-
+        return response()->json(
+            $request->header()
+        );
         $tokenHeader = $request->header('Authorization');
+
 
         if(empty($tokenHeader)) {
             return response()->json(

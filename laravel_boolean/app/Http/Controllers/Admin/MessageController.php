@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
+
+use App\Mail\SendNewMail;
+use App\Message;
 use App\Page;
-use App\User;
 
-class PageController extends Controller
+
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +25,12 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::where('visible', 0)->orderBy('created_at', 'DESC')->paginate(15);
 
-        return view('guests.index', compact('pages'));
+        $messages = Message::all();
+        $pages = Page::all();
+
+        return view('admin.messages.index', compact('messages', 'pages'));
+
     }
 
     /**
@@ -32,7 +40,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -43,7 +51,50 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+
+
+        // if(Auth::check()) {
+        //     $data['user_id'] = Auth::id();
+        // }
+        // else {
+        //     $data['user_id'] = Auth::loginUsingId($data['user_id'], true);
+        // }
+
+
+//     @auth
+//     // The user is authenticated...
+// @endauth
+//
+// @guest
+//     // The user is not authenticated...
+// @endguest
+$data['user_id'] = Auth::id();
+            $validator = Validator::make($data, [
+                'email' => 'required',
+                'message' => 'required',
+            ]);
+
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $message = new Message;
+        $message->fill($data);
+        $saved = $message->save();
+
+        if(!$saved) {
+            abort('404');
+        }
+
+        
+        Mail::to('mail@mail.it')->send(new SendNewMail($message));
+        return redirect()->back()->with('status', 'messaggio inviato correttamente');
+
     }
 
     /**
@@ -54,10 +105,9 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        $page = Page::findOrFail($id);
-        $user_id = Auth::id();
-        $user_id = User::findOrFail($id);
-        return view('guests.show', compact('page', 'user_id'));
+        $message = Message::findOrFail($id);
+
+        return view('admin.messages.show', compact('message'));
     }
 
     /**
